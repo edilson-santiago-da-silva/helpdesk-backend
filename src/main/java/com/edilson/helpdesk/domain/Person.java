@@ -36,8 +36,8 @@ public abstract class Person implements Serializable {
 	protected String password;
 	
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "PROFILES")
-	protected Set<Integer> profiles = new HashSet<>();
+	@CollectionTable(name = "PROFILE")
+	protected Set<Integer> profile = new HashSet<>();
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	protected LocalDate creationDate = LocalDate.now();
@@ -97,12 +97,12 @@ public abstract class Person implements Serializable {
 		this.password = password;
 	}
 
-	public Set<Profile> getProfiles() {
-		return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
+	public Set<Profile> getProfile() {
+		return profile.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
 	}
 
 	public void addProfile(Profile profile) {
-		this.profiles.add(profile.getCode());
+		this.profile.add(profile.getCode());
 	}
 
 	public LocalDate getCreationDate() {
