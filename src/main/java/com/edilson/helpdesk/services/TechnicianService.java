@@ -1,5 +1,6 @@
 package com.edilson.helpdesk.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +19,9 @@ public class TechnicianService {
 	public Technician findById(Integer id) {
 		Optional<Technician> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectnotFoundException("object not found! id " + id ));
+	}
+
+	public List<Technician> findAll() {
+		return repository.findAll();
 	}
 }
