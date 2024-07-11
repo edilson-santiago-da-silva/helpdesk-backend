@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.edilson.helpdesk.domain.Technician;
 import com.edilson.helpdesk.repositories.TechnicianRepository;
+import com.edilson.helpdesk.services.exceptions.ObjectnotFoundException;
 
 @Service
 public class TechnicianService {
@@ -16,6 +17,6 @@ public class TechnicianService {
 	
 	public Technician findById(Integer id) {
 		Optional<Technician> obj = repository.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectnotFoundException("object not found! id " + id ));
 	}
 }
