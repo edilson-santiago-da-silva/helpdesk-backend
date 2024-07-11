@@ -25,6 +25,7 @@ public class TechnicianDTO implements Serializable {
 
 	public TechnicianDTO() {
 		super();
+		addProfile(Profile.CLIENT);
 	}
 
 	public TechnicianDTO(Technician obj) {
@@ -36,6 +37,7 @@ public class TechnicianDTO implements Serializable {
 		this.password =obj.getPassword();
 		this.profile = obj.getProfile().stream().map(x -> x.getCode()).collect(Collectors.toSet());
 		this.creationDate = obj.getCreationDate();
+		addProfile(Profile.CLIENT);
 	}
 
 	public Integer getId() {
