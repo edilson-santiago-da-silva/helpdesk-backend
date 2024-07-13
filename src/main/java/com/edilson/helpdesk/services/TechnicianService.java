@@ -41,13 +41,21 @@ public class TechnicianService {
 		Technician newObj = new Technician(objDTO);
 		return repository.save(newObj);
 	}
-	
+
 	public Technician update(Integer id, @Valid TechnicianDTO objDTO) {
 		objDTO.setId(id);
 		Technician oldObj = findById(id);
 		validaPorCpfEEmail(objDTO);
 		oldObj = new Technician(objDTO);
 		return repository.save(oldObj);
+	}
+
+	public void delete(Integer id) {
+		Technician obj = findById(id);
+		if (obj.getCalled().size() > 0) {
+			throw new DataIntegrityViolationException("Technician has work orders and cannot be deleted!");
+		}
+		repository.deleteById(id);
 	}
 
 	private void validaPorCpfEEmail(TechnicianDTO objDTO) {
@@ -61,6 +69,5 @@ public class TechnicianService {
 			throw new DataIntegrityViolationException("E-mail already registered in the system!");
 		}
 	}
-
 
 }
