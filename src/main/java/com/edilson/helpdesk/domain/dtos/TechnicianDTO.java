@@ -102,9 +102,4 @@ public class TechnicianDTO implements Serializable {
 		this.creationDate = creationDate;
 	}
 	
-	
-	
-	
-	
-	
 }

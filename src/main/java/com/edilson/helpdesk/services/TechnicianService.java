@@ -3,6 +3,8 @@ package com.edilson.helpdesk.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,10 +36,18 @@ public class TechnicianService {
 
 	public Technician create(TechnicianDTO objDTO) {
 		objDTO.setId(null); // adiciona o id nulo no body da requisição para não ter problema com a
-							// reescrita de dados. atualizção dos dados indevidamente
+							// reescrita de dados.(atualizção dos dados indevidamente)
 		validaPorCpfEEmail(objDTO);
 		Technician newObj = new Technician(objDTO);
 		return repository.save(newObj);
+	}
+	
+	public Technician update(Integer id, @Valid TechnicianDTO objDTO) {
+		objDTO.setId(id);
+		Technician oldObj = findById(id);
+		validaPorCpfEEmail(objDTO);
+		oldObj = new Technician(objDTO);
+		return repository.save(oldObj);
 	}
 
 	private void validaPorCpfEEmail(TechnicianDTO objDTO) {
@@ -51,4 +61,6 @@ public class TechnicianService {
 			throw new DataIntegrityViolationException("E-mail already registered in the system!");
 		}
 	}
+
+
 }
