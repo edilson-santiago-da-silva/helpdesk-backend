@@ -3,6 +3,8 @@ package com.edilson.helpdesk.domain.dtos;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotNull;
+
 import com.edilson.helpdesk.domain.Called;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -13,12 +15,18 @@ public class CalledDTO implements Serializable {
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate openingDate = LocalDate.now();
 	@JsonFormat(pattern = "dd/MM/yyyy")
-	private LocalDate closingDate = LocalDate.now();
+	private LocalDate closingDate;
+	@NotNull(message = "The PRIORITY field is required")
 	private Integer priority;
+	@NotNull(message = "The STATUS field is required")
 	private Integer status;
+	@NotNull(message = "The TITLE field is required")
 	private String title;
+	@NotNull(message = "The COMMENTS field is required")
 	private String comments;
+	@NotNull(message = "The TECHNICIAN field is required")
 	private Integer technician;
+	@NotNull(message = "The CLIENT field is required")
 	private Integer client;
 	private String nameTechnician;
 	private String nameClient;
