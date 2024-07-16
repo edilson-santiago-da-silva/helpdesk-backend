@@ -1,5 +1,6 @@
 package com.edilson.helpdesk.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +42,13 @@ public class CalledService {
 	public Called create(@Valid CalledDTO objDTO) {
 		return repository.save(newCalled(objDTO));
 	}
+	
+	public Called update(Integer id, @Valid CalledDTO objDTO) {
+		objDTO.setId(id);
+		Called oldObj = findById(id);
+		oldObj = newCalled(objDTO);
+		return repository.save(oldObj);
+	}
 
 	private Called newCalled(CalledDTO obj) {
 		Technician technician = technicianService.findById(obj.getTechnician());
@@ -50,7 +58,11 @@ public class CalledService {
 		if (obj.getId() != null) {
 			called.setId(obj.getId());
 		}
-
+		
+		if (obj.getStatus().equals(2)) {
+			called.setClosingDate(LocalDate.now());
+		}
+		
 		called.setTechnician(technician);
 		called.setClient(client);
 		called.setPriority(Priority.toEnum(obj.getPriority()));
@@ -59,7 +71,9 @@ public class CalledService {
 		called.setComments(obj.getComments());
 
 		return called;
-
 	}
+	
+
+
 
 }
