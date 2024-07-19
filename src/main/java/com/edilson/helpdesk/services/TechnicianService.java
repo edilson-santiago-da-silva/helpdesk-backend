@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.edilson.helpdesk.domain.Person;
@@ -24,6 +25,9 @@ public class TechnicianService {
 
 	@Autowired
 	private PersonRepository personRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
 	public Technician findById(Integer id) {
 		Optional<Technician> obj = repository.findById(id);
@@ -37,6 +41,7 @@ public class TechnicianService {
 	public Technician create(TechnicianDTO objDTO) {
 		objDTO.setId(null); // adiciona o id nulo no body da requisição para não ter problema com a
 							// reescrita de dados.(atualizção dos dados indevidamente)
+		objDTO.setPassword(encoder.encode(objDTO.getPassword()));
 		validaPorCpfEEmail(objDTO);
 		Technician newObj = new Technician(objDTO);
 		return repository.save(newObj);

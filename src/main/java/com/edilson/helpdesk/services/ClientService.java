@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.edilson.helpdesk.domain.Client;
@@ -24,6 +25,9 @@ public class ClientService {
 
 	@Autowired
 	private PersonRepository personRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
 	public Client findById(Integer id) {
 		Optional<Client> obj = repository.findById(id);
@@ -37,6 +41,7 @@ public class ClientService {
 	public Client create(ClientDTO objDTO) {
 		objDTO.setId(null); // adiciona o id nulo no body da requisição para não ter problema com a
 							// reescrita de dados.(atualizção dos dados indevidamente)
+		objDTO.setPassword(encoder.encode(objDTO.getPassword()));
 		validaPorCpfEEmail(objDTO);
 		Client newObj = new Client(objDTO);
 		return repository.save(newObj);

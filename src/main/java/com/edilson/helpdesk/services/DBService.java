@@ -3,6 +3,7 @@ package com.edilson.helpdesk.services;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.edilson.helpdesk.domain.Called;
@@ -26,20 +27,23 @@ public class DBService {
 
 	@Autowired
 	private CalledRepository calledRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
 	public void instanceDB() {
-		Technician tech1 = new Technician(null, "Edilson Santiago", "064.007.370-06", "edilson@gmail.com", "123");
+		Technician tech1 = new Technician(null, "Edilson Santiago", "064.007.370-06", "edilson@gmail.com", encoder.encode("123"));
 		tech1.addProfile(Profile.ADMIN);
-		Technician tech2 = new Technician(null, "Richard Stallman", "903.347.070-56", "stallman@mail.com", "123");
-		Technician tech3 = new Technician(null, "Claude Elwood Shannon", "271.068.470-54", "shannon@mail.com", "123");
-		Technician tech4 = new Technician(null, "Tim Berners-Lee", "162.720.120-39", "lee@mail.com", "123");
-		Technician tech5 = new Technician(null, "Linus Torvalds", "778.556.170-27", "linus@mail.com", "123");
+		Technician tech2 = new Technician(null, "Richard Stallman", "903.347.070-56", "stallman@mail.com", encoder.encode("123"));
+		Technician tech3 = new Technician(null, "Claude Elwood Shannon", "271.068.470-54", "shannon@mail.com", encoder.encode("123"));
+		Technician tech4 = new Technician(null, "Tim Berners-Lee", "162.720.120-39", "lee@mail.com", encoder.encode("123"));
+		Technician tech5 = new Technician(null, "Linus Torvalds", "778.556.170-27", "linus@mail.com", encoder.encode("123"));
 
-		Client client1 = new Client(null, "Jose Silva", "610.691.880-50", "jose@gmail.com", "123");
-		Client client2 = new Client(null, "Marie Curie", "322.429.140-06", "curie@mail.com", "123");
-		Client client3 = new Client(null, "Charles Darwin", "792.043.830-62", "darwin@mail.com", "123");
-		Client client4 = new Client(null, "Stephen Hawking", "177.409.680-30", "hawking@mail.com", "123");
-		Client client5 = new Client(null, "Max Planck", "081.399.300-83", "planck@mail.com", "123");
+		Client client1 = new Client(null, "Jose Silva", "610.691.880-50", "jose@gmail.com", encoder.encode("123"));
+		Client client2 = new Client(null, "Marie Curie", "322.429.140-06", "curie@mail.com", encoder.encode("123"));
+		Client client3 = new Client(null, "Charles Darwin", "792.043.830-62", "darwin@mail.com", encoder.encode("123"));
+		Client client4 = new Client(null, "Stephen Hawking", "177.409.680-30", "hawking@mail.com", encoder.encode("123"));
+		Client client5 = new Client(null, "Max Planck", "081.399.300-83", "planck@mail.com", encoder.encode("123"));
 
 		Called called1 = new Called(null, Priority.AVERAGE, Status.PROGRESS, "Called 01", "First called", tech1, client1);
 		Called called2 = new Called(null, Priority.HIGH, Status.OPEN, "Chamado 2", "Teste chamado 2", tech1, client2);
